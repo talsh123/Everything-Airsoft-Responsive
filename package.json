@@ -1,0 +1,36 @@
+{
+  "name": "everything-airsoft-responsive",
+  "version": "1.0.0",
+  "description": "Remodeled Everything Airsoft website using Material UI",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon server.js",
+    "frontend": "cd frontend && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
+    "frontend-install": "cd frontend && npm install",
+    "frontend-uninstall": "cd frontend && npm uninstall"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/talsh123/Everything-Airsoft-Responsive.git"
+  },
+  "author": "Talshalom Ben Ovadia",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/talsh123/Everything-Airsoft-Responsive/issues"
+  },
+  "homepage": "https://github.com/talsh123/Everything-Airsoft-Responsive#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.2.6",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.23.0",
+    "concurrently": "^5.3.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.0",
+    "mongoose": "^5.10.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

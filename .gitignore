@@ -1,0 +1,9 @@
+# dependencies
+/node_modules
+
+# misc
+.env
+
+# SSL keys and certificates
+.server.cert
+.server.key
