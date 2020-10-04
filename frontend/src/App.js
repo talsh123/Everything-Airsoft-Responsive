@@ -1,24 +1,31 @@
+// React
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import {toggleLogged, setShoppingCartInfo, updateAmount, removeItem, setUser} from './actions';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-export class App extends Component {
+// Redux
+import { connect } from 'react-redux';
+import { toggleLogged, setShoppingCartInfo, updateAmount, removeItem, setUser } from './actions';
+
+// Components
+import { NavBar } from './components';
+
+class App extends Component {
   render() {
     return (
-      <div>
-        
-      </div>
+      <Router>
+        <NavBar />
+      </Router>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
   return {
     logged: state.loggedReducer,
     shoppingCartInfo: state.shoppingCartInfoReducer,
     user: state.setUserReducer
   }
-})
+}
 
 const mapDispatchToProps = () => {
   return {

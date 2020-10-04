@@ -1,0 +1,36 @@
+.rowGrid {
+    padding: 15px 50px !important;
+} 
+
+.buttons {
+    padding: 12px 15px !important;
+    margin: 0 3px !important;
+    border-radius: 5px !important;
+}
+
+.iconMenuItem {
+    margin: 0 4px !important;
+    padding: 0 !important;
+}
+
+.iconMenuItem:hover {
+    background-color: unset !important;
+}
+
+.icons {
+    font-size: 20px !important;
+    opacity: 1 !important;
+    box-shadow: 0em 0em 0em 0.1em rgb(255, 255, 255) !important;
+}
+
+@media only screen and (max-width: 1024px) {
+    .rowGrid {
+        padding: 15px 0px !important;
+    }
+}
+
+@media only screen and (max-width: 374px) {
+    .icons {
+        font-size: 15px !important;
+    }
+}

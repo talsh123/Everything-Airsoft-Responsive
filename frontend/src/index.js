@@ -1,9 +1,17 @@
+// React
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+// Components
 import App from './App';
-import {createStore} from 'redux';
+
+// Redux
+import { createStore } from 'redux';
 import reducers from './reducers/reducers';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
+
+// Semantic-UI
+import 'semantic-ui-less/semantic.less'
 
 const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
