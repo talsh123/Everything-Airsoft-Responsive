@@ -7,13 +7,14 @@ import App from './App';
 
 // Redux
 import { createStore } from 'redux';
-import reducers from './reducers/reducers';
+import allReducers from './reducers';
 import { Provider } from 'react-redux';
 
 // Semantic-UI
 import 'semantic-ui-less/semantic.less'
 
-const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+// Redux Store
+const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(
   <Provider store={store}>

@@ -4,12 +4,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 // Redux
 import { connect } from 'react-redux';
-import { toggleLogged, setShoppingCartInfo, updateAmount, removeItem, setUser } from './actions';
+import { addItems, updateItemsAmount, removeItems, setUser } from './actions';
 
 // Components
 import { NavBar } from './components';
 
 class App extends Component {
+
   render() {
     return (
       <Router>
@@ -21,15 +22,14 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    logged: state.loggedReducer,
-    shoppingCartInfo: state.shoppingCartInfoReducer,
-    user: state.setUserReducer
+    user: state.userReducer,
+    items: state.itemsReducer
   }
 }
 
 const mapDispatchToProps = () => {
   return {
-    toggleLogged, setShoppingCartInfo, updateAmount, removeItem, setUser
+    addItems, updateItemsAmount, removeItems, setUser
   }
 }
 

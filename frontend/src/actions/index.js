@@ -1,35 +1,28 @@
-// Actions (types)
-export const TOGGLE_LOGGED = 'TOGGLE_LOGGED';
-export const SET_SHOPPING_CART_INFO = 'SET_SHOPPING_CART_INFO';
-export const UPDATE_AMOUNT = 'UPDATE_AMOUNT';
-export const REMOVE_ITEM = 'REMOVE_ITEM';
+// Action Types
+export const ADD_ITEMS = 'ADD_ITEMS';
+export const UPDATE_ITEMS_AMOUNT = 'UPDATE_ITEMS_AMOUNT';
+export const REMOVE_ITEMS = 'REMOVE_ITEMS';
 export const SET_USER = 'SET_USER';
 
 // Action Creators 
-export const toggleLogged = () => {
+export const addItems = items => {
     return {
-        type: TOGGLE_LOGGED
+        type: ADD_ITEMS,
+        payload: items
     }
 }
 
-export const setShoppingCartInfo = shoppingCartItem => {
+export const updateItemsAmount = amount => {
     return {
-        type: SET_SHOPPING_CART_INFO,
-        payload: shoppingCartItem
-    }
-}
-
-export const updateAmount = amount => {
-    return {
-        type: UPDATE_AMOUNT,
+        type: UPDATE_ITEMS_AMOUNT,
         payload: amount
     }
 }
 
-export const removeItem = itemToRemove => {
+export const removeItems = items => {
     return {
-        type: REMOVE_ITEM,
-        payload: itemToRemove
+        type: REMOVE_ITEMS,
+        payload: items
     }
 }
 

@@ -10,8 +10,8 @@ import Logo from '../../global/images/EverythingAirsoftLogo.png';
 // Stylesheets
 import style from './NavBar.module.css';
 
-export const NavBar = () => {
 
+export const NavBar = () => {
     return (
         // NavBar Grid
         <Grid stackable padded>
