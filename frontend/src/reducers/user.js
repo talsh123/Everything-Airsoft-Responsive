@@ -4,11 +4,11 @@ import { SET_USER } from '../actions/index';
 // When invoked, setUserReducer updates user state to the current logged user
 // On default, it returns the current state
 const userReducer = (state = {
-    id: '123',
-    username: '123',
-    address: '123',
-    hash: '123',
-    email: '123',
+    id: undefined,
+    username: undefined,
+    address: undefined,
+    hash: undefined,
+    email: undefined,
     isAdmin: false,
     isVerified: false,
 }, action) => {
