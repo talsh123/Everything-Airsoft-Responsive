@@ -1,0 +1,35 @@
+/* Global Form Template */
+
+.global-form-segment {
+    margin: 0 auto !important;
+    text-align: center;
+}
+
+.global-form {
+    margin: 0 auto !important;
+    width: 60% !important;
+    text-align: left;
+}
+
+.global-form-field {
+    padding: 10px 0 !important;
+}
+
+.global-form-centered-container {
+    text-align: center;
+    margin: 0 auto !important;
+}
+
+.global-form-submit-button {
+    width: 40% !important;
+}
+
+@media only screen and (max-width: 1024px) {
+    .global-form {
+        width: 100% !important;
+    }
+
+    .global-form-submit-button {
+        width: 100% !important;
+    }
+}
