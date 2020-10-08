@@ -87,10 +87,12 @@ export const NavBar = () => {
                 </Grid.Column>
                 {/* Sign In/ Sign Up Buttons, Contact, Community & User Options Column */}
                 <Grid.Column verticalAlign='middle' floated='right' textAlign='center' widescreen={4} largeScreen={6} computer={7} tablet={9}>
-                    <Button.Group>
-                        <Button as={Link} to='/signIn' inverted className={style.buttons}>Sign In</Button>
-                        <Button as={Link} to='/signUp' className={style.buttons}>Sign Up</Button>
-                    </Button.Group>
+                    {
+                        user._id === undefined ? <Button.Group>
+                            <Button as={Link} to='/signIn' inverted className={style.buttons}>Sign In</Button>
+                            <Button as={Link} to='/signUp' className={style.buttons}>Sign Up</Button>
+                        </Button.Group> : ''
+                    }
                     <Menu inverted borderless compact>
                         <Menu.Item as={Link} to='/communities' className={style.iconMenuItem} name='communities'>
                             <Icon color='blue' circular className={style.icons} name='users' link />
@@ -99,7 +101,7 @@ export const NavBar = () => {
                             <Icon color='green' circular className={style.icons} name='phone volume' link />
                         </Menu.Item>
                         {
-                            user.id !== undefined ? <Menu.Item className={style.iconMenuItem} name='user-options'>
+                            user._id !== undefined ? <Menu.Item className={style.iconMenuItem} name='user-options'>
                                 <Dropdown trigger={<span></span>} direction='left' options={generateUserOptions()} icon={<Icon color='teal' name='user' circular className={style.icons} />} />
                             </Menu.Item> : ''
                         }

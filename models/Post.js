@@ -1,3 +1,5 @@
+// Post Mongoose Model
+
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
@@ -21,23 +23,28 @@ const postSchema = new Schema({
         type: [mongoose.Schema.Types.ObjectId],
         default: [],
         ref: 'Comment',
-        required: true
+        required: false
     },
     likes: {
         type: Number,
         default: 0,
-        required: true
+        required: false
     },
     usersLiked: {
         type: [mongoose.Schema.Types.ObjectId],
         default: [],
-        required: true,
+        required: false,
         ref: 'User'
+    },
+    dislikes: {
+        type: Number,
+        default: 0,
+        required: false
     },
     usersDisliked: {
         type: [mongoose.Schema.Types.ObjectId],
         default: [],
-        required: true,
+        required: false,
         ref: 'User'
     },
     communityId: {

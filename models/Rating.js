@@ -1,10 +1,12 @@
+// Rating Mongoose Model
+
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
 const ratingSchema = new Schema({
     title: {
-        type: String, 
+        type: String,
         required: true,
         trim: true,
     },

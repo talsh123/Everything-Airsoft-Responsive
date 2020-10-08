@@ -1,8 +1,9 @@
 # dependencies
 /node_modules
 
-# misc
+# Enviorment Variables
 .env
+.vscode
 
 # SSL keys and certificates
 .server.cert

@@ -1,10 +1,10 @@
 {
   "name": "everything-airsoft-responsive",
   "version": "1.0.0",
-  "description": "Remodeled Everything Airsoft website using Material UI",
+  "description": "Remodeled Everything Airsoft website using Semantic UI",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "set HTTPS=true&&set SSL_CRT_FILE=.server.cert&&set SSL_KEY_FILE=.server.key&&nodemon server.js",
     "frontend": "cd frontend && npm start",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
     "frontend-install": "cd frontend && npm install",

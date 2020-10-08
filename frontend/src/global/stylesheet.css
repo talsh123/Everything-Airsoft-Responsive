@@ -2,6 +2,7 @@
 
 .global-form-segment {
     margin: 0 auto !important;
+    padding: 30px 0 !important;
     text-align: center;
 }
 
@@ -26,10 +27,37 @@
 
 @media only screen and (max-width: 1024px) {
     .global-form {
-        width: 100% !important;
+        width: 90% !important;
     }
 
     .global-form-submit-button {
         width: 100% !important;
+    }
+}
+
+/* Global SweetAlert2 Template */
+
+.sweetalert {
+    font-size: 15px;
+    cursor: default;
+    width: min-content;
+}
+
+.swal2-title {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 900;
+}
+
+.swal2-timer-progress-bar {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.swal2-container {
+    width: fit-content;
+}
+
+@media only screen and (max-width: 766px) {
+    .sweetalert {
+        font-size: 12px;
     }
 }

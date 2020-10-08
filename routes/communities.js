@@ -1,129 +1,122 @@
-const express = require('express');
+// Models
 const Community = require('../models/Community');
+
+// DotEnv
 require('dotenv').config();
+
+// Other
+const express = require('express');
 const cloudinary = require('cloudinary').v2;
 const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
 
+// Router Set Up
 const router = express.Router();
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 router.use(fileUpload());
 
-// Returns all communities if no error occurs, otherwise sends back the error
-router.get('/all', (_req, res) => {
-    Community.find({}, (err, communities) => {
-        if (err)
-            res.status(500).json(err);
-        else
-            res.status(200).json(communities);
-    })
+// Parameters: None
+// Usage: Find all communities
+// Return: An array containing all communities if no error occurs  
+router.get('/all', async (_req, res, next) => {
+    try {
+        const communities = await Community.find({});
+        res.status(200).json(communities);
+    } catch (err) {
+        return next(err);
+    }
 });
 
-// Gets a community ID and returns the community with the same ID if no error occurs, otherwise sends back the error
-router.get('/getCommunity/:communityId', (req, res) => {
-    Community.findById(req.params.communityId, (err, community) => {
-        if (err)
-            res.status(500).json(err);
-        else
-            res.status(200).json(community);
-    })
+// Parameters: Community ID
+// Usage: Find the community with the given id
+// Return: The community with the given id if no error occurs
+router.get('/getCommunity/:communityId', async (req, res, next) => {
+    try {
+        const community = await Community.findById(req.params.communityId);
+        res.status(200).json(community);
+    } catch (err) {
+        next(err);
+    }
 });
 
-// Gets a community ID, increments the community members with the same ID and returns the community if no error occurs, otherwise sends back the error 
-router.patch('/joinCommunity/:communityId/:userId', (req, res) => {
-    Community.findOneAndUpdate({ _id: req.params.communityId, membersList: { $nin: [new mongoose.Types.ObjectId(req.params.userId)] } }, { $inc: { 'numMembers': 1 }, $push: { 'membersList': new mongoose.Types.ObjectId(req.params.userId) } }, (err, community) => {
-        if (err)
-            res.status(500).json(err);
-        else
-            res.status(200).json(community);
-    })
+// Parameters: Community ID, User ID
+// Usage: Save the given user as a member of the given community
+// Return: The given community before action 
+router.patch('/joinCommunity/:communityId/:userId', async (req, res, next) => {
+    try {
+        const community = await Community.findOneAndUpdate({ _id: req.params.communityId, membersList: { $nin: [new mongoose.Types.ObjectId(req.params.userId)] } }, { $inc: { 'numMembers': 1 }, $push: { 'membersList': new mongoose.Types.ObjectId(req.params.userId) } });
+        res.status(200).json(community);
+    } catch (err) {
+        next(err);
+    }
 });
 
-router.patch('/leaveCommunity/:communityId/:userId', (req, res) => {
-    Community.findOneAndUpdate({ _id: req.params.communityId, membersList: { $in: [new mongoose.Types.ObjectId(req.params.userId)] } }, { $inc: { 'numMembers': -1 }, $pull: { 'membersList': new mongoose.Types.ObjectId(req.params.userId) } }, (err, community) => {
-        if (err)
-            res.status(500).json(err);
-        else
-            res.status(200).json(community);
-    })
+// Parameters: Community ID, User ID
+// Usage: Delete the given user from the given community
+// Return: The given community before action
+router.patch('/leaveCommunity/:communityId/:userId', async (req, res, next) => {
+    try {
+        const community = await Community.findOneAndUpdate({ _id: req.params.communityId, membersList: { $in: [new mongoose.Types.ObjectId(req.params.userId)] } }, { $inc: { 'numMembers': -1 }, $pull: { 'membersList': new mongoose.Types.ObjectId(req.params.userId) } });
+        res.status(200).json(community);
+    } catch (err) {
+        next(err);
+    }
 })
 
-// Gets a community ID and a user ID and checks if the username is a member of the community and returns the result if no error occurs
-router.get('/isInCommunity/:communityId/:userId', (req, res) => {
-    Community.exists({ _id: req.params.communityId, membersList: { $in: [new mongoose.Types.ObjectId(req.params.userId)] } }, (err, boolean) => {
-        if (err)
-            res.status(500).json(err);
-        else
-            res.status(200).json(boolean);
-    })
+// Parameters: Community ID, User ID
+// Usage: Check if the user is a member of the community 
+// Return: True if the user is a member, otherwise False.
+router.get('/isMember/:communityId/:userId', async (req, res, next) => {
+    try {
+        const boolean = await Community.exists({ _id: req.params.communityId, membersList: { $in: [new mongoose.Types.ObjectId(req.params.userId)] } });
+        res.status(200).json(boolean);
+    } catch (err) {
+        next(err);
+    }
 })
 
-// Gets a community ID and a user ID and checks if the username is the owner of the community and returns the result if no error occurs
-router.get('/isOwner/:communityId/:userId', (req, res) => {
-    Community.exists({ _id: req.params.communityId, owner: new mongoose.Types.ObjectId(req.params.userId) }, (err, boolean) => {
-        if (err)
-            res.status(500).json(err);
-        else
-            res.status(200).json(boolean);
-    })
+// Parameters: Community ID, User ID
+// Usage: Check if the user is a community's owner 
+// Return: True if the user is the owner, otherwise False.
+router.get('/isOwner/:communityId/:userId', async (req, res, next) => {
+    try {
+        const boolean = await Community.exists({ _id: req.params.communityId, owner: new mongoose.Types.ObjectId(req.params.userId) });
+        res.status(200).json(boolean);
+    } catch (err) {
+        next(err);
+    }
 })
 
-router.post('/saveCommunity', (req, res) => {
-    const community = JSON.parse(req.body.community);
-    const {
-        name,
-        description,
-        owner
-    } = {
-        name: community.name,
-        description: community.description,
-        owner: community.owner
-    };
+// Parameters: An object containing a community's name, description and the id of the owner user
+// A file parameter containing the communities logo is also given
+// Usage: Saves the community as a new community, upload the image to the Cloudinary database
+// Return: True if the user is the owner, otherwise False
+router.post('/saveCommunity', async (req, res, next) => {
+    try {
+        // Destructuring the community details
+        const { name, description, owner } = JSON.parse(req.body.community);
 
-    const newCommunity = new Community({
-        name,
-        description,
-        owner
-    });
+        // Creates the new community
+        const newCommunity = new Community({
+            name,
+            description,
+            owner
+        });
 
-    newCommunity.save((err, community) => {
-        if (err)
-            res.status(500).json(err)
-        else {
-            const file = req.files.file;
-            file.mv(`${__dirname}/../static/images/${file.name}`, err => {
-                if (err) {
-                    Community.findByIdAndDelete(community._id, (err, deletedCommunity) => {
-                        if (err)
-                            res.status(400).json(err)
-                        else
-                            console.log(deletedCommunity);
-                    })
-                    res.status(400).json(err);
-                }
-            });
-            cloudinary.uploader.upload(`${__dirname}/../static/images/${file.name}`, {
-                public_id: community._id,
-                unique_filename: false
-            }, (err, result) => {
-                if (err)
-                    res.status(400).json(err);
-                else {
-                    res.status(200).json(result)
-                }
-            })
-        }
-    })
+        // Saves the new community, saves the community's logo locally and uploads the image to the Cloudinary database
+        const community = await newCommunity.save();
+        const file = req.files.file;
+        file.mv(`${__dirname}/../global/images/${file.name}`);
+        const result = await cloudinary.uploader.upload(`${__dirname}/../static/images/${file.name}`, {
+            public_id: community._id,
+            unique_filename: false
+        });
+        res.status(200).json(result)
+    }
+    catch (err) {
+        next(err);
+    }
 })
-
-router.patch('/comment/:communityId/:postId', (req, res) => {
-    Community.findOneAndUpdate({ _id: req.params.communityId }, { $push: { 'posts': new mongoose.Types.ObjectId(req.params.postId) } }, (err, community) => {
-        if (err)
-            res.status(500).json(err);
-        else
-            res.status(200).json(community);
-    })
-});
 
 module.exports = router;
