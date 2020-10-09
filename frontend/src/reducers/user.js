@@ -1,8 +1,9 @@
 // Actions
 import { SET_USER } from '../actions/index';
 
-// When invoked, setUserReducer updates user state to the current logged user
-// On default, it returns the current state
+// Parameters: An object containing user details
+// Usage: When invoked, setUserReducer updates user state to the current signed user
+// Return: The state containing the signed user
 const userReducer = (state = {
     _id: undefined,
     username: undefined,

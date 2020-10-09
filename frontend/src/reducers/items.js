@@ -5,11 +5,11 @@ import { ADD_ITEMS, REMOVE_ITEMS, UPDATE_ITEMS_AMOUNT } from '../actions/index';
 import { calculateTotalPrice } from '../global/functions/redux';
 
 // On ADD_ITEMS:
-// itemReducer adds the new products to the items array and recalculates the totalPrice
+// itemsReducer adds the new products to the items array and recalculates the totalPrice
 // On REMOVE_ITEMS:
-// itemReducer removes the given products(action.payload) from the items array and recalculates totalPrice
+// itemsReducer removes the given products(action.payload) from the items array and recalculates totalPrice
 // On UPDATE_ITEMS_AMOUNT:
-// itemReducer updates the amount of a given products(action.payload) from the items array and recalculates totalPrice
+// itemsReducer updates the amount of a given products(action.payload) from the items array and recalculates totalPrice
 const itemsReducer = (state = {
     totalPrice: 0,
     items: []

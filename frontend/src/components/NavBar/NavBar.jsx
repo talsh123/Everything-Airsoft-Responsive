@@ -41,7 +41,7 @@ export const NavBar = () => {
     // Usage: searchProducts searches for a specified pattern inside a product's name
     // Return: No return value
     const searchProducts = () => {
-        const text = document.getElementById('searchbar-input').value;
+        const text = document.getElementById('search-bar-input').value;
         if (text)
             axios.get(`/products/likeProduct/${text}`).then(data => {
                 setProducts(data.data);
@@ -77,7 +77,7 @@ export const NavBar = () => {
                 </Grid.Column>
                 {/* Search Bar Column */}
                 <Grid.Column verticalAlign='middle' floated='left' textAlign='left' stretched widescreen={6} largeScreen={5} computer={5} tablet={3} mobile={1}>
-                    <Input id='searchbar-input' list='products' onInput={() => handler()} focus action={{ icon: 'search', circular: true, color: 'teal', onClick: () => console.log('hello') }} type='text' placeholder='Search for products...' />
+                    <Input id='search-bar-input' list='products' onInput={() => handler()} focus action={{ icon: 'search', circular: true, color: 'teal', onClick: () => console.log('') }} type='text' placeholder='Search for products...' />
                     <datalist id='products'>
                         {
                             // Renders products in the datalist when the user product searching

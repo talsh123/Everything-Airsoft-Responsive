@@ -46,17 +46,30 @@ router.post('/saveUser', async (req, res, next) => {
     })
     // Saves the user
     const user = await newUser.save();
-    // Sends email verification
-    sendVerificationMail(user);
     res.status(200).json(user);
   } catch (err) {
-    next(err);
+    // If a user tries to sign up with the same username or email, duplicate index (username or email) error is sent back
+    if (err.code === 11000) {
+      let duplicateProperty = null;
+      if ('username' in err.keyValue)
+        duplicateProperty = 'username';
+      else if ('email' in err.keyValue)
+        duplicateProperty = 'email';
+      res.status(200).json({
+        error: 'duplicateIndex',
+        property: duplicateProperty
+      });
+    } else {
+      // Unhandled errors
+      console.log(err);
+      next(err);
+    }
   }
 })
 
 // Parameters: A username
 // Usage: Finds the user with the specified username
-// Return: The user with the specified username
+// Return: The user with the specified username. If no user is found, null is returned
 router.get('/getUserByUsername/:username', async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.params.username });
