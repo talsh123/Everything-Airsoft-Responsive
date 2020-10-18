@@ -23,6 +23,10 @@
     box-shadow: 0em 0em 0em 0.1em rgb(255, 255, 255) !important;
 }
 
+.searchResultContainer {
+    margin: 50px 10% !important;
+}
+
 @media only screen and (max-width: 1024px) {
     .rowGrid {
         padding: 15px 0px !important;

@@ -1,6 +1,6 @@
 import sweetalert from 'sweetalert2';
 
-// Parameters: A title string, an icon type string, and a string hex value resembling the icon's color
+// Parameters: A title string, an icon type string, and a string hex value representing the icon's color
 // Usage: Prompts the user using SweetAlert2
 // Return: No return value
 export const toast = (string, icon, iconColor) => {

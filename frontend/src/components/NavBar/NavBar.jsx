@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Semantic UI
-import { Image, Menu, Button, Icon, Input, Dropdown, Grid } from 'semantic-ui-react';
+import { Image, Menu, Button, Icon, Input, Dropdown, Grid, Item } from 'semantic-ui-react';
 
 // Images
 import Logo from '../../global/images/EverythingAirsoftLogo.png';
@@ -14,6 +14,9 @@ import style from './NavBar.module.css';
 // Redux
 import { useSelector } from 'react-redux';
 
+// Components
+import { SearchResult } from '../SearchResult/SearchResult';
+
 // Other
 import axios from 'axios';
 
@@ -21,8 +24,9 @@ export const NavBar = () => {
     // Redux user state
     const user = useSelector(state => state.user);
 
-    // products component state
+    // products component state, result conditional rendering state
     const [products, setProducts] = useState([]);
+    const [isResult, setIsResult] = useState(false);
 
     // A timer that resets every time the user types in the search bar 
     let timer = null;
@@ -67,47 +71,66 @@ export const NavBar = () => {
         return userOptions;
     }
 
+    // Parameters: None
+    // Usage: Fetch the user's search string, and render another a component which shows the search's product results 
+    // Return: No return value
+    const searchBarHandler = () => {
+        setIsResult(true);
+    }
+
     return (
         // NavBar Grid
-        <Grid stackable padded>
-            <Grid.Row centered className={style.rowGrid} color='black'>
-                {/* Logo Column */}
-                <Grid.Column verticalAlign='middle' floated='left' widescreen={2} largeScreen={2} computer={3} tablet={4} mobile={2}>
-                    <Image as={Link} to='/' size='small' src={Logo} />
-                </Grid.Column>
-                {/* Search Bar Column */}
-                <Grid.Column verticalAlign='middle' floated='left' textAlign='left' stretched widescreen={6} largeScreen={5} computer={5} tablet={3} mobile={1}>
-                    <Input id='search-bar-input' list='products' onInput={() => handler()} focus action={{ icon: 'search', circular: true, color: 'teal', onClick: () => console.log('') }} type='text' placeholder='Search for products...' />
-                    <datalist id='products'>
+        <React.Fragment>
+            <Grid stackable padded>
+                <Grid.Row centered className={style.rowGrid} color='black'>
+                    {/* Logo Column */}
+                    <Grid.Column verticalAlign='middle' floated='left' widescreen={2} largeScreen={2} computer={3} tablet={4} mobile={2}>
+                        <Image as={Link} to='/' size='small' src={Logo} />
+                    </Grid.Column>
+                    {/* Search Bar Column */}
+                    <Grid.Column verticalAlign='middle' floated='left' textAlign='left' stretched widescreen={6} largeScreen={5} computer={5} tablet={3} mobile={1}>
+                        <Input id='search-bar-input' list='products' onInput={() => handler()} focus action={{ icon: 'search', circular: true, color: 'teal', onClick: () => { searchBarHandler() } }} type='text' placeholder='Search for products...' />
+                        <datalist id='products'>
+                            {
+                                // Renders products in the datalist when the user product searching
+                                products.length ? products.map(product => <option key={product._id} value={product.name}>{product.name}</option>) : ''
+                            }
+                        </datalist>
+                    </Grid.Column>
+                    {/* Sign In/ Sign Up Buttons, Contact, Community & User Options Column */}
+                    <Grid.Column verticalAlign='middle' floated='right' textAlign='center' widescreen={4} largeScreen={6} computer={7} tablet={9}>
                         {
-                            // Renders products in the datalist when the user product searching
-                            products.length ? products.map(product => <option key={product._id} value={product.name}>{product.name}</option>) : ''
+                            user._id === undefined ? <Button.Group>
+                                <Button as={Link} to='/signIn' inverted className={style.buttons}>Sign In</Button>
+                                <Button as={Link} to='/signUp' className={style.buttons}>Sign Up</Button>
+                            </Button.Group> : ''
                         }
-                    </datalist>
-                </Grid.Column>
-                {/* Sign In/ Sign Up Buttons, Contact, Community & User Options Column */}
-                <Grid.Column verticalAlign='middle' floated='right' textAlign='center' widescreen={4} largeScreen={6} computer={7} tablet={9}>
+                        <Menu inverted borderless compact>
+                            <Menu.Item as={Link} to='/communities' className={style.iconMenuItem} name='communities'>
+                                <Icon color='blue' circular className={style.icons} name='users' link />
+                            </Menu.Item>
+                            <Menu.Item as={Link} to='/contact' className={style.iconMenuItem} name='contact'>
+                                <Icon color='green' circular className={style.icons} name='phone volume' link />
+                            </Menu.Item>
+                            {
+                                user._id !== undefined ? <Menu.Item className={style.iconMenuItem} name='user-options'>
+                                    <Dropdown trigger={<span></span>} direction='left' options={generateUserOptions()} icon={<Icon color='teal' name='user' circular className={style.icons} />} />
+                                </Menu.Item> : ''
+                            }
+                        </Menu>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid >
+            {/* Search Results */}
+            {
+                isResult ? <Item.Group relaxed link divided className={style.searchResultContainer}>
                     {
-                        user._id === undefined ? <Button.Group>
-                            <Button as={Link} to='/signIn' inverted className={style.buttons}>Sign In</Button>
-                            <Button as={Link} to='/signUp' className={style.buttons}>Sign Up</Button>
-                        </Button.Group> : ''
+                        products.map(product => {
+                            return <SearchResult key={product._id} product={product} />
+                        })
                     }
-                    <Menu inverted borderless compact>
-                        <Menu.Item as={Link} to='/communities' className={style.iconMenuItem} name='communities'>
-                            <Icon color='blue' circular className={style.icons} name='users' link />
-                        </Menu.Item>
-                        <Menu.Item as={Link} to='/contact' className={style.iconMenuItem} name='contact'>
-                            <Icon color='green' circular className={style.icons} name='phone volume' link />
-                        </Menu.Item>
-                        {
-                            user._id !== undefined ? <Menu.Item className={style.iconMenuItem} name='user-options'>
-                                <Dropdown trigger={<span></span>} direction='left' options={generateUserOptions()} icon={<Icon color='teal' name='user' circular className={style.icons} />} />
-                            </Menu.Item> : ''
-                        }
-                    </Menu>
-                </Grid.Column>
-            </Grid.Row>
-        </Grid >
+                </Item.Group> : ''
+            }
+        </React.Fragment>
     )
 }

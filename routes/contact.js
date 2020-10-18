@@ -16,7 +16,7 @@ sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 router.post('/contact', async (req, res, next) => {
     try {
         // Destructuring the email information
-        let { firstName, lastName, email, subject, body } = req.body;
+        let { email, subject, message } = req.body;
 
         // Send email to recipient 
         const msg = {
@@ -31,7 +31,8 @@ router.post('/contact', async (req, res, next) => {
         let receivedMessage = {
             to: 'talshalom900@gmail.com',
             from: email,
-            subject: subject
+            subject: subject,
+            html: message
         }
         const success = await sgMail.send(receivedMessage);
 
