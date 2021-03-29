@@ -1,5 +1,6 @@
 // React
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 // Cloudinary
 import cloudinary from 'cloudinary-core';
@@ -15,14 +16,24 @@ import style from './SearchResult.module.css';
 
 export const SearchResult = (props) => {
 
+    // Navigation
+    const history = useHistory();
+
     // Cloudinary variable used for fetching images from the Cloudinary database
     const cloudinaryCore = new cloudinary.Cloudinary({ cloud_name: 'everythingairsoft' });
 
+    // Parameters: None
+    // Usage: Redirect to product details page
+    // Return: No return value
+    const searchResultHandler = (productId) => {
+        history.push(`/productDetails/${productId}`);
+    }
+
     return (
         // Item
-        <Item className={style.searchResultItem} key={props.product._id}>
+        <Item className={style.searchResultItem} onClick={() => searchResultHandler(props.product._id)} key={props.product._id}>
             {/* Image */}
-            <Item.Image verticalAlign='middle' centered className={style.image} size='medium' src={cloudinaryCore.url(`${props.product._id}`)} alt={props.product.name} />
+            <Item.Image verticalAlign='middle' centered className={style.image} size='small' src={cloudinaryCore.url(`${props.product._id}`)} alt={props.product.name} />
             {/* Info */}
             <Item.Content className={style.content} verticalAlign='middle'>
                 <Item.Header>{props.product.name}</Item.Header>

@@ -1,0 +1,33 @@
+.carouselHeader {
+    padding: 5px !important;
+    background-color: #ddd;
+}
+
+.carouselHeader > * {
+    font-weight: 100 !important;
+}
+
+.carouselContainer, .carouselImage {
+    max-height: 480px !important;
+}
+
+.carouselImage {
+    object-fit: cover !important;
+}
+
+.carouselFooter {
+    background-color: #444;
+    color: #fff !important;
+}
+
+.gridColumn > * {
+    text-transform: uppercase !important;
+    font-weight: 100 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+} 
+
+@media only screen and (max-width: 767px) {
+    .carouselContainer, .carouselImage {
+        max-height: 720px !important;
+    }
+}

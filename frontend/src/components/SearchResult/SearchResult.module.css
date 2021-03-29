@@ -1,6 +1,5 @@
-.searchResultItem {
-    padding: 3% 5% !important;
-    border: 1px #555555 solid !important;
+.searchResultItem, .searchResultItem:first-child, .searchResultItem:last-child {
+    padding: 2% 5% !important;
 }
 
 .price {
